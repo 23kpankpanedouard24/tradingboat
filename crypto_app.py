@@ -51,8 +51,14 @@ def get_daily_analysis(date_key):
     Ne retourne plus le prix live.
     """
     try:
-        okx = ccxt.okx()
-        ohlcv = okx.fetch_ohlcv("ENA/USDT", timeframe='1d', limit=500)
+        binance = ccxt.binance({
+            'enableRateLimit': True,
+            'options': {
+                'defaultType': 'spot',
+                'fetchMarkets': ['spot'],
+            }
+        })
+        ohlcv = binance.fetch_ohlcv("ENA/USDT", timeframe='1d', limit=200)
         
         data = pd.DataFrame(ohlcv, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
         data["date"] = pd.to_datetime(data["date"], unit="ms")
@@ -84,14 +90,20 @@ def get_daily_analysis(date_key):
         st.stop()
 
 # FONCTION 2 : Le prix live (cache 1 minute)
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=60)
 def get_live_price():
     """
     Récupère juste le dernier prix tradé. Mis en cache 1 minute.
     """
     try:
-        okx = ccxt.okx()
-        ticker = okx.fetch_ticker("ENA/USDT")
+        binance = ccxt.binance({
+            'enableRateLimit': True,
+            'options': {
+                'defaultType': 'spot',
+                'fetchMarkets': ['spot'],
+            }
+        })
+        ticker = binance.fetch_ticker("ENA/USDT")
         return ticker['last']
     except Exception as e:
         st.warning(f"Impossible de rafraîchir le prix live: {e}")
@@ -180,7 +192,7 @@ long_entry_price = pred_low*1.0025
 long_take_profit = long_entry_price*1.04
 long_stop_loss = long_entry_price*(1-0.04)
 # Short position
-short_entry_price = pred_high*(1-0.005)
+short_entry_price = pred_high*(1+0.005)
 short_take_profit = short_entry_price*(1-0.04)
 short_stop_loss = short_entry_price*1.04
 
@@ -202,3 +214,5 @@ while True:
     
     # On attend 60 secondes avant de redemander le prix
     time.sleep(60)
+
+    
