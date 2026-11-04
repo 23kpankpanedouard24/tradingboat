@@ -115,3 +115,7 @@ Always trade responsibly and do your own research.
 **Oumar KEITA**  
 Data Scientist | Industrial Management Engineer  
 LinkedIn: https://www.linkedin.com/in/oumar-keita-a04374245/  
+
+## Développement
+
+Ce dépôt sera enrichi progressivement avec de nouvelles fonctionnalités et améliorations.
