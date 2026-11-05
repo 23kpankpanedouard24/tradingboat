@@ -110,11 +110,6 @@ Cryptocurrency trading involves significant financial risk.
 I am not responsible for any financial losses incurred through the use of this software.  
 Always trade responsibly and do your own research.
 
-## 👤 Created By
-
-**Oumar KEITA**  
-Data Scientist | Industrial Management Engineer  
-LinkedIn: https://www.linkedin.com/in/oumar-keita-a04374245/  
 
 ## Développement
 
